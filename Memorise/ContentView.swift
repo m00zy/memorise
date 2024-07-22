@@ -20,6 +20,7 @@ struct ContentView: View {
     var title: some View{
         Text("Memorize!")
             .font(.title)
+            .foregroundColor(.blue)
     }
     
     var cards: some View {
