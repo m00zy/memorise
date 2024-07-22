@@ -1,20 +1,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis = ["👻", "💀", "🍸", "❄️", "✌️", "🍔", "♾️", "✨", "🇦🇺", "😅", "🫥", "🤯"]
-    
-    @State var cardCount: Int = 4
+    @State var emojis: [String] = []
+    let expressionEmojis = ["😅", "🤯", "🤓", "😝", "🙂‍↔️", "😅", "🤯", "🤓", "😝", "🙂‍↔️"]
+    let halloweenEmojis = ["🧛‍♀️", "🧟‍♀️", "🦇", "🕸️", "🧛‍♀️", "🧟‍♀️", "🦇", "🕸️"]
+    let foodEmojis = ["🍔", "🍕", "🍉", "🍗", "🥨", "🍧", "🍪", "🍔", "🍕", "🍉", "🍗", "🥨", "🍧", "🍪"]
+
     var body: some View {
         VStack {
+            title
             ScrollView{
-                Cards
+                cards
             }
+            themeSelectorButtons
         }
         .padding()
     }
-    var Cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
-            ForEach(0..<cardCount, id: \.self) { index in
+    
+    var title: some View{
+        Text("Memorize!")
+            .font(.title)
+    }
+    
+    var cards: some View {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
+            ForEach(0..<emojis.count, id: \.self) { index in
                 CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
@@ -22,6 +32,41 @@ struct ContentView: View {
         .foregroundColor(.orange)
     }
     
+    func getThemeSelectorButton(themeEmojis: [String], symbol: String, text: String) -> some View {
+        return Button(action: {
+            emojis = themeEmojis.shuffled()
+        }, label: {
+            VStack{
+                Image(systemName: symbol)
+                Text(text)
+            }
+        })
+    }
+    
+    var themeSelectorButtons: some View {
+        HStack{
+            selectExpressionsThemeButton
+            Spacer()
+            selectHalloweenThemeButton
+            Spacer()
+            selectFoodThemeButton
+        }
+        .padding()
+
+    }
+    
+    var selectExpressionsThemeButton: some View{
+        return getThemeSelectorButton(themeEmojis: expressionEmojis, symbol: "face.smiling", text: "Expressions")
+    }
+
+    var selectHalloweenThemeButton: some View{
+        return getThemeSelectorButton(themeEmojis: halloweenEmojis, symbol: "moon.fill", text: "Halloween")
+    }
+
+    var selectFoodThemeButton: some View{
+        return getThemeSelectorButton(themeEmojis: foodEmojis, symbol: "fork.knife", text: "Food")
+    }
+}
     struct CardView: View {
         let content: String
         @State var isFaceUp = false
@@ -50,4 +95,5 @@ struct ContentView: View {
             ContentView()
         }
     }
-}
+
+
