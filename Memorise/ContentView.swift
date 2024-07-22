@@ -66,12 +66,12 @@ struct CardView: View {
             }
             .opacity(isFaceUp ? 1 : 0)
             
-            base.fill()
-                .opacity(isFaceUp ? 0 : 1)
-                .onTapGesture {
-                    isFaceUp.toggle()
-                }
+            base.fill().opacity(isFaceUp ? 0 : 1)
         }
+        .onTapGesture {
+            isFaceUp.toggle()
+        }
+        
     }
 }
 
